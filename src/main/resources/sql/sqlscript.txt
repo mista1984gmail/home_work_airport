@@ -1,0 +1,140 @@
+create database airport;
+
+CREATE TABLE airport.role (
+roleId int PRIMARY KEY auto_increment,
+name varchar(256)
+);
+
+
+
+CREATE TABLE airport.employee (
+employeeId int PRIMARY KEY auto_increment,
+name varchar(256),
+surName varchar (256),
+roleId int, constraint fk_role foreign key (roleId) references airport.role(roleId)
+);
+
+
+
+CREATE TABLE airport.crew (
+crewId int PRIMARY KEY auto_increment,
+name varchar(256)
+);
+
+
+CREATE TABLE airport.crewEmployee
+(
+employeeId int, constraint fk_employee foreign key (employeeId) references airport.employee(employeeId),
+crewId int, constraint fk_crew foreign key (crewId) references airport.crew(crewId),
+primary key(employeeId, crewId)
+);
+
+
+
+CREATE TABLE airport.airplane (
+airplaneId int PRIMARY KEY auto_increment,
+name varchar(256),
+serialNumber varchar(256)
+);
+
+
+
+CREATE TABLE airport.airplaneCrew
+(
+
+airplaneId int,
+constraint fk_airplane foreign key (airplaneId) references airport.airplane(airplaneId),
+crewId int, constraint fk_crew_airplane foreign key (crewId) references airport.crew(crewId),
+primary key(airplaneId, crewId)
+);
+
+
+
+CREATE TABLE airport.route
+(
+routeId int PRIMARY KEY auto_increment,
+departure varchar(256),
+arrival varchar (256)
+);
+
+
+
+CREATE TABLE airport.airplaneRoute
+(
+
+airplaneId int,
+constraint fk_airplane_route foreign key (airplaneId) references airport.airplane(airplaneId),
+routeId int, constraint fk_airplanerouterouteId foreign key (routeId) references airport.route(routeId),
+primary key(airplaneId, routeId)
+);
+
+
+USE airport;
+
+INSERT INTO `airport`.`role` (`name`) VALUES ('Commander');
+INSERT INTO `airport`.`role` (`name`) VALUES ('Pilot');
+INSERT INTO `airport`.`role` (`name`) VALUES ('Stewardess');
+
+
+
+INSERT INTO `airport`.`employee` (`name`, `surName`) VALUES ('John', 'Wayne');
+
+INSERT INTO `airport`.`employee` (`name`, `surName`) VALUES ('Patrick', 'Wilson');
+
+INSERT INTO `airport`.`employee` (`name`, `surName`) VALUES ('Greta', 'Garbo');
+
+
+
+INSERT INTO `airport`.`airplane` (`name`, `serialNumber`) VALUES ('Airbus', 'A330');
+
+INSERT INTO `airport`.`airplane` (`name`, `serialNumber`) VALUES ('Boeing', '737');
+
+
+
+
+INSERT INTO `airport`.`route` (`departure`, `arrival`) VALUES ('Denver', 'Los Angeles');
+
+INSERT INTO `airport`.`route` (`departure`, `arrival`) VALUES ('Las Vegas', 'New York');
+
+
+UPDATE `airport`.`employee` SET `roleId` = '1' WHERE (`employeeId` = '1');
+
+UPDATE `airport`.`employee` SET `roleId` = '2' WHERE (`employeeId` = '2');
+
+UPDATE `airport`.`employee` SET `roleId` = '3' WHERE (`employeeId` = '3');
+
+
+INSERT INTO `airport`.`airplaneroute` (`airplaneId`, `routeId`) VALUES ('1', '1');
+
+INSERT INTO `airport`.`airplaneroute` (`airplaneId`, `routeId`) VALUES ('2', '2');
+
+
+INSERT INTO `airport`.`employee` (`name`, `surName`, `roleId`) VALUES ('Bradley', 'Pitt', '1');
+
+INSERT INTO `airport`.`employee` (`name`, `surName`, `roleId`) VALUES ('Pierce', 'Brosnan', '2');
+
+INSERT INTO `airport`.`employee` (`name`, `surName`, `roleId`) VALUES ('Reese', 'Witherspoon', '3');
+
+
+INSERT INTO `airport`.`crew` (`name`) VALUES ('First');
+
+INSERT INTO `airport`.`crew` (`name`) VALUES ('Second');
+
+
+INSERT INTO `airport`.`crewemployee` (`employeeId`, `crewId`) VALUES ('1', '1');
+
+INSERT INTO `airport`.`crewemployee` (`employeeId`, `crewId`) VALUES ('2', '1');
+
+INSERT INTO `airport`.`crewemployee` (`employeeId`, `crewId`) VALUES ('3', '1');
+
+INSERT INTO `airport`.`crewemployee` (`employeeId`, `crewId`) VALUES ('4', '2');
+
+INSERT INTO `airport`.`crewemployee` (`employeeId`, `crewId`) VALUES ('5', '2');
+
+INSERT INTO `airport`.`crewemployee` (`employeeId`, `crewId`) VALUES ('6', '2');
+
+
+
+INSERT INTO `airport`.`airplanecrew` (`airplaneId`, `crewId`) VALUES ('1', '1');
+
+INSERT INTO `airport`.`airplanecrew` (`airplaneId`, `crewId`) VALUES ('2', '2');
